@@ -1,6 +1,6 @@
 jdk:
   - openjdk11
 
-install:
-  - ./gradlew :AnyHook:build :AnyHook:publishToMavenLocal
-  - find . -name "*.aar"
+#install:
+#  - ./gradlew :AnyHook:build :AnyHook:publishToMavenLocal
+#  - find . -name "*.aar"
