@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.tooling.PreviewActivity
 import com.phc.anyhook.until.PreviewActReflect.reflectActCreate
 
 /**
@@ -20,8 +21,8 @@ object PreviewHook {
     private val TAG = PreviewHook::class.java.name
 
 
-//    private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
-    private val NAME_PREVIEW_ACT = "androidx.compose.ui.tooling.PreviewActivity"
+    private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
+//    private val NAME_PREVIEW_ACT = "androidx.compose.ui.tooling.PreviewActivity"
 
     /**
      * 事务执行code为100
