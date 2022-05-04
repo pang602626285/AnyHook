@@ -33,3 +33,4 @@ dependencyResolutionManagement {
 rootProject.name = "AnyHookDemo"
 include ':app'
 include ':AnyHook'
+include ':AnyHookNoOp'

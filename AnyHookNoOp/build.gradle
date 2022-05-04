@@ -28,12 +28,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion "$compose_version"
-    }
-    buildFeatures{
-        compose true
-    }
 }
 afterEvaluate {
     publishing {
@@ -41,14 +35,12 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.phcdevelop' //groupId 随便取
-                artifactId = 'anyhook'  //artifactId 随便取
+                artifactId = 'anyhook-no-op'  //artifactId 随便取
                 version = '0.0.2'
             }
         }
     }
 }
-
-
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -57,13 +49,4 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation "androidx.compose.material:material:$compose_version"
-//    implementation "androidx.compose.animation:animation:$compose_version"
-//    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-
 }
