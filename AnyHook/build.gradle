@@ -40,9 +40,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.phcdevelop' //groupId 随便取
+                groupId = 'com.github.phcdevelop.AnyHook' //groupId 随便取
                 artifactId = 'anyhook'  //artifactId 随便取
-                version = '0.0.2'
+                version = '0.0.1'
             }
         }
     }
