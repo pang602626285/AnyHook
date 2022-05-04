@@ -1,6 +1,7 @@
 package com.phc.anyhook.hook
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -34,15 +35,22 @@ object PreviewHook {
     private const val Q_EXECUTE_TRANSACTION = 159
 
 
+    /**
+     * 需要在activity 的onCreate方法中调用
+     */
     @JvmStatic
     fun ComponentActivity.onActCreate(savedInstanceState: Bundle?) {
         reflectActCreate(savedInstanceState)
     }
 
+    /**
+     * @param app App实例
+     * @param replaceActClaz 需要替换启动的activity类
+     */
     @SuppressLint("SoonBlockedPrivateApi", "PrivateApi", "DiscouragedPrivateApi")
     @JvmStatic
-    fun hookHandle(context: Context, replaceActClaz: Class<out ComponentActivity>) {
-        if (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
+    fun hookHandle(app: Application, replaceActClaz: Class<out ComponentActivity>) {
+        if (app.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
             Log.i(TAG, "Application is not debuggable. Don't need hook!")
             return
         }
@@ -64,10 +72,10 @@ object PreviewHook {
                 try {
                     when (it.what) {
                         O_LAUNCH_ACTIVITY -> {
-                            handleO(context, it, replaceActClaz)
+                            handleO(app, it, replaceActClaz)
                         }
                         Q_EXECUTE_TRANSACTION -> {
-                            handleQ(context, it, replaceActClaz)
+                            handleQ(app, it, replaceActClaz)
                         }
                     }
                     //用系统的执行
