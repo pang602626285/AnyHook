@@ -32,5 +32,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AnyHookDemo"
 include ':app'
-include ':AnyHook'
-include ':AnyHookNoOp'
+include ':anyhook'
+include ':anyhook-no-op'

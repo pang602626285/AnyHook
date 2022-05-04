@@ -39,10 +39,10 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.release
+//                from components.release
 //                groupId = 'com.github.phcdevelop.anyHook' //groupId 随便取
-                artifactId = 'anyhoo2k'  //artifactId 随便取
-                version = '0.0.1'
+//                artifactId = 'anyhoo2k'  //artifactId 随便取
+//                version = '0.0.1'
             }
         }
     }

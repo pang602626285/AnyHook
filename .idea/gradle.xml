@@ -11,8 +11,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/AnyHook" />
-            <option value="$PROJECT_DIR$/AnyHookNoOp" />
+            <option value="$PROJECT_DIR$/anyhook" />
+            <option value="$PROJECT_DIR$/anyhook-no-op" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
