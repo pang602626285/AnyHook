@@ -35,4 +35,4 @@
 }
 ```
 
-这样，在调用compose的preview功能时可以获取到自己的activity实例
+这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
