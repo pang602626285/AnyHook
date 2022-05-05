@@ -49,7 +49,7 @@ object PreviewHook {
      */
     @SuppressLint("SoonBlockedPrivateApi", "PrivateApi", "DiscouragedPrivateApi")
     @JvmStatic
-    fun hookHandle(app: Application, replaceActClaz: Class<out ComponentActivity>) {
+    fun init(app: Application, replaceActClaz: Class<out ComponentActivity>) {
         if (app.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
             Log.i(TAG, "Application is not debuggable. Don't need hook!")
             return
