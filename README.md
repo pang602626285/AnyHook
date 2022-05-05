@@ -22,11 +22,11 @@
   ```kotlin
       override fun onCreate() {
         super.onCreate()
-        PreviewHook.hookHandle(this,MPreviewAct::class.java)
+        PreviewHook.init(this,MPreviewAct::class.java)
     }
   ```
   
-  在自己创建的activity的子类（不需要再manifest中注册）中调用
+  在自己创建的activity的子类（不需要在manifest中注册）中调用
   ```kotlin
   class MPreviewAct: FragmentActivity() {
 
