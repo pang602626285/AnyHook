@@ -12,7 +12,7 @@
     }
   }
   ```
-  在app的buidle.gradle中添加
+  在app的build.gradle中添加
   ```gradle
       debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
       releaseImplementation 'com.github.phcdevelop.anyhook:anyhook-no-op:latestVersion'
@@ -26,13 +26,13 @@
     }
   ```
   
-  在自己创建的activity的子类（不需要在manifest中注册）中调用
+  在自己创建的ComponentActivity的子类（不需要在manifest中注册）中调用
   ```kotlin
   class MPreviewAct: FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onActCreate(savedInstanceState)
+        PreviewHook.onActCreate(this,savedInstanceState)
     }
 }
 ```

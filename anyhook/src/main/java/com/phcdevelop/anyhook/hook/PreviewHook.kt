@@ -1,6 +1,7 @@
 package com.phcdevelop.anyhook.hook
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.ComponentName
 import android.content.Context
@@ -39,8 +40,8 @@ object PreviewHook {
      * 需要在activity 的onCreate方法中调用
      */
     @JvmStatic
-    fun ComponentActivity.onActCreate(savedInstanceState: Bundle?) {
-        reflectActCreate(savedInstanceState)
+    fun onActCreate(activity: ComponentActivity, savedInstanceState: Bundle?) {
+        activity.reflectActCreate(savedInstanceState)
     }
 
     /**

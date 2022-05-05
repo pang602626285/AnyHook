@@ -1,5 +1,6 @@
 package com.phcdevelop.anyhook.hook
 
+import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +14,7 @@ object PreviewHook {
      * 需要在activity 的onCreate方法中调用
      */
     @JvmStatic
-    fun ComponentActivity.onActCreate(savedInstanceState: Bundle?) {
+    fun onActCreate(activity: Activity,savedInstanceState: Bundle?) {
         //no op
     }
 
@@ -22,7 +23,7 @@ object PreviewHook {
      * @param replaceActClaz 需要替换启动的activity类
      */
     @JvmStatic
-    fun hookHandle(app: Application, replaceActClaz: Class<out ComponentActivity>) {
+    fun init(app: Application, replaceActClaz: Class<out ComponentActivity>) {
         //no op
     }
 
