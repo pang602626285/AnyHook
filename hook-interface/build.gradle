@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+
 }
 
 android {
@@ -28,7 +30,18 @@ android {
         jvmTarget = '1.8'
     }
 }
-
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.phcdevelop.anyhook'
+                artifactId = 'hook-interface'
+                version = "$app_version"
+            }
+        }
+    }
+}
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
