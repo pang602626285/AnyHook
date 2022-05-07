@@ -40,8 +40,11 @@ object PreviewHook {
      * 需要在activity 的onCreate方法中调用
      */
     @JvmStatic
-    fun onActCreate(activity: ComponentActivity, savedInstanceState: Bundle?) {
-        activity.reflectActCreate(savedInstanceState)
+    fun onActCreate(activity: ComponentActivity) {
+        activity.reflectActCreate()
+//        val intent = Intent(activity.intent)
+//        intent.component = ComponentName(activity,PreviewActivity::class.java)
+//        activity.startActivity(intent)
     }
 
     /**

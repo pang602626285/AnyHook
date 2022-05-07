@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
  * 基于PreviewActivity中代码，通过放射进行调用
  */
 object PreviewActReflect {
-    internal fun ComponentActivity.reflectActCreate(savedInstanceState: Bundle?) {
+    internal fun ComponentActivity.reflectActCreate() {
         if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
             finish()
             return

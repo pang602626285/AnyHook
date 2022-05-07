@@ -32,7 +32,7 @@
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreviewHook.onActCreate(this,savedInstanceState)
+        PreviewHook.onActCreate(this)
     }
 }
 ```

@@ -14,7 +14,7 @@ import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreviewHook.onActCreate(this,savedInstanceState)
+        PreviewHook.onActCreate(this)
         Toast.makeText(this,"hook success!!",Toast.LENGTH_LONG).show()
     }
 }
