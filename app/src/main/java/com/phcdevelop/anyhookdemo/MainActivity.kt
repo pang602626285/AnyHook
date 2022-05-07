@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.fragment.app.FragmentActivity
 import com.phcdevelop.anyhook.hook.PreviewHook
 import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
@@ -17,8 +19,9 @@ class MainActivity : FragmentActivity() {
     }
 }
 
+@Preview
 @Composable
-fun Greeting(name: String) {
+fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
     Text(text = "Hello $name!")
 }
 
@@ -28,4 +31,10 @@ fun DefaultPreview() {
     AnyHookDemoTheme {
         Greeting("Android")
     }
+}
+
+class TestProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String>
+        get() = sequenceOf("test","123")
+
 }

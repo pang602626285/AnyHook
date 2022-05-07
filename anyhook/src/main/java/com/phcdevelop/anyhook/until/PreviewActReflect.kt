@@ -29,10 +29,12 @@ object PreviewActReflect {
         val className = composableFqn.substringBeforeLast('.')
         val methodName = composableFqn.substringAfterLast('.')
 
+        //解析Provider，兼容多预览值
         intent.getStringExtra("parameterProviderClassName")?.let { parameterProvider ->
             setParameterizedContent(className, methodName, parameterProvider)
             return@setComposableContent
         }
+        //没有provider
         setContent {
             "androidx.compose.ui.tooling.CommonPreviewUtils".method("invokeComposableViaReflection")
                 ?.invoke(
@@ -67,8 +69,7 @@ object PreviewActReflect {
         val asPreviewProviderClass =
             "androidx.compose.ui.tooling.PreviewUtilsKt".method("asPreviewProviderClass")
                 ?.invoke(
-                    null, className,
-                    methodName,
+                    null,parameterProvider,
                 )
         val previewParameters =
             "androidx.compose.ui.tooling.PreviewUtilsKt".method("getPreviewProviderParameters")
@@ -85,7 +86,7 @@ object PreviewActReflect {
         // Handle the case where parameterProviderIndex is not provided. In this case, instead of
         // showing an arbitrary value (e.g. the first one), we display a FAB that can be used to
         // cycle through all the values.
-        if (previewParameters.size > 1) {
+        if (previewParameters.size > 1) {//多个预览值的展示
             setContent {
                 val index = remember { mutableStateOf(0) }
 
@@ -98,7 +99,7 @@ object PreviewActReflect {
                                 className,
                                 methodName,
                                 currentComposer,
-                                previewParameters[index.value]
+                                arrayOf(previewParameters[index.value])
                             )
                         /*invokeComposableViaReflection(
                             className,
