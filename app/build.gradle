@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.phc.anyhookdemo"
-        minSdk 21
-        targetSdk 31
+        minSdk min_version
+        targetSdk target_version
         versionCode 1
         versionName "1.0"
 

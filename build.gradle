@@ -13,3 +13,8 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext{
+    min_version = 21
+    target_version =31
+    app_version = "1.0.1"
+}

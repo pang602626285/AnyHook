@@ -10,6 +10,6 @@ import com.phcdevelop.anyhook.hook.PreviewHook
 class MApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        PreviewHook.init(this,MainActivity::class.java)
+        PreviewHook.instance.init(this,MainActivity::class.java)
     }
 }

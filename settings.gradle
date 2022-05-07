@@ -34,3 +34,4 @@ rootProject.name = "AnyHookDemo"
 include ':app'
 include ':anyhook'
 include ':anyhook-no-op'
+include ':hook-interface'

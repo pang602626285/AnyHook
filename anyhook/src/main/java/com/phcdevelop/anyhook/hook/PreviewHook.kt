@@ -1,46 +1,49 @@
 package com.phcdevelop.anyhook.hook
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
-import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.tooling.PreviewActivity
+import com.phcdevelop.anyhook.hook_interface.HookInterface
 import com.phcdevelop.anyhook.until.PreviewActReflect.reflectActCreate
 
 /**
  * @Author PHC
  * @Data 2022/3/3 17:55
  */
-object PreviewHook {
-    private val TAG = PreviewHook::class.java.name
+class PreviewHook private constructor(): HookInterface {
+    companion object {
+        private val TAG = PreviewHook::class.java.name
 
 
-    private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
+        private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
 //    private val NAME_PREVIEW_ACT = "androidx.compose.ui.tooling.PreviewActivity"
 
-    /**
-     * 事务执行code为100
-     */
-    private const val O_LAUNCH_ACTIVITY = 100
-    /**
-     * 事务执行code为159
-     */
-    private const val Q_EXECUTE_TRANSACTION = 159
+        /**
+         * 事务执行code为100
+         */
+        private const val O_LAUNCH_ACTIVITY = 100
+
+        /**
+         * 事务执行code为159
+         */
+        private const val Q_EXECUTE_TRANSACTION = 159
+
+        val instance: HookInterface by lazy { PreviewHook() }
+    }
 
 
     /**
      * 需要在activity 的onCreate方法中调用
      */
-    @JvmStatic
-    fun onActCreate(activity: ComponentActivity) {
+    override fun onActCreate(activity: ComponentActivity) {
         activity.reflectActCreate()
 //        val intent = Intent(activity.intent)
 //        intent.component = ComponentName(activity,PreviewActivity::class.java)
@@ -52,8 +55,7 @@ object PreviewHook {
      * @param replaceActClaz 需要替换启动的activity类
      */
     @SuppressLint("SoonBlockedPrivateApi", "PrivateApi", "DiscouragedPrivateApi")
-    @JvmStatic
-    fun init(app: Application, replaceActClaz: Class<out ComponentActivity>) {
+    override fun init(app: Application, replaceActClaz: Class<out ComponentActivity>) {
         if (app.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
             Log.i(TAG, "Application is not debuggable. Don't need hook!")
             return

@@ -22,8 +22,8 @@
   ```kotlin
       override fun onCreate() {
         super.onCreate()
-        PreviewHook.init(this,MPreviewAct::class.java)
-    }
+        PreviewHook.instance.init(this,MainActivity::class.java)
+}
   ```
   
   在自己创建的ComponentActivity的子类（不需要在manifest中注册）中调用
@@ -32,7 +32,7 @@
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreviewHook.onActCreate(this)
+        PreviewHook.instance.onActCreate(this)
     }
 }
 ```

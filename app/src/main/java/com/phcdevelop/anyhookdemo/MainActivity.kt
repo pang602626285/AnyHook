@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocal
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -14,7 +16,7 @@ import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreviewHook.onActCreate(this)
+        PreviewHook.instance.onActCreate(this)
         Toast.makeText(this,"hook success!!",Toast.LENGTH_LONG).show()
     }
 }
