@@ -15,26 +15,15 @@
   在app的build.gradle中添加
   ```gradle
       debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
-      releaseImplementation 'com.github.phcdevelop.anyhook:anyhook-no-op:latestVersion'
   ```
-  
-  在application中调用
-  ```kotlin
-      override fun onCreate() {
-        super.onCreate()
-        PreviewHook.instance.init(this,MainActivity::class.java)
-}
+  在AndroidManifest中添加
+  ```xml
+          <provider
+              android:authorities="com.phcdevelop.anyhook.provider.AnyProvider"
+              android:name="com.phcdevelop.anyhook.provider.AnyProvider"
+              android:grantUriPermissions="true"
+              android:exported="false">
+              <meta-data android:name="previewActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
+          </provider>
   ```
-  
-  在自己创建的ComponentActivity的子类（不需要在manifest中注册）中调用
-  ```kotlin
-  class MPreviewAct: FragmentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        PreviewHook.instance.onActCreate(this)
-    }
-}
-```
-
-这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
+  其中previewActName对应的value为ComponentActivity的子类（不需要在manifest中注册）的全包名。这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例

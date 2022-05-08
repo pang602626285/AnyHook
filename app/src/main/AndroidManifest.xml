@@ -10,6 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnyHookDemo">
+        <property android:name="app" android:value="123132"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.phcdevelop.anyhook.provider.AnyProvider"
+            android:name="com.phcdevelop.anyhook.provider.AnyProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data android:name="previewActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
+        </provider>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.phcdevelop.anyhookdemo
 
 import android.app.Application
-import com.phcdevelop.anyhook.hook.PreviewHook
 
 /**
  * @Author PHC
@@ -10,6 +9,5 @@ import com.phcdevelop.anyhook.hook.PreviewHook
 class MApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        PreviewHook.instance.init(this,MainActivity::class.java)
     }
 }
