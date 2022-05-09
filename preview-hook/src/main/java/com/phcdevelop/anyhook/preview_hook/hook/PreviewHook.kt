@@ -19,13 +19,17 @@ import com.phcdevelop.anyhook.preview_hook.until.PreviewActReflect.reflectActCre
  * @Author PHC
  * @Data 2022/3/3 17:55
  */
-class PreviewHook private constructor(): HookInterface {
+internal class PreviewHook private constructor() : HookInterface {
     companion object {
         private val TAG = PreviewHook::class.java.name
 
 
         private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
 //    private val NAME_PREVIEW_ACT = "androidx.compose.ui.tooling.PreviewActivity"
+        /**
+         * 执行bindAPP操作，各版本一致
+         */
+        private const val BIND_APPLICATION = 110
 
         /**
          * 事务执行code为100
@@ -62,6 +66,42 @@ class PreviewHook private constructor(): HookInterface {
             Log.i(TAG, "Application is not debuggable. Don't need hook!")
             return
         }
+        val handler = getThreadHandle()
+
+        Handler::class.java.getDeclaredField("mCallback").apply { this.isAccessible = true }
+            //替换掉原来的Callback
+            .set(handler, object : Handler.Callback {
+                override fun handleMessage(it: Message): Boolean {
+                    try {
+                        when (it.what) {
+                            O_LAUNCH_ACTIVITY -> {
+                                handleO(app, it, replaceActClaz)
+                            }
+                            Q_EXECUTE_TRANSACTION -> {
+                                handleQ(app, it, replaceActClaz)
+                            }
+                            BIND_APPLICATION -> {
+                                Handler::class.java.getDeclaredField("mCallback")
+                                    .apply { this.isAccessible = true }
+                                    .takeIf { it.get(handler)?.equals(this) != true }//不相等说明callback被替换，再次替换回来
+                                    ?.let {
+                                        Log.i(TAG,"Handler's mCallback replace success!")
+                                        it.set(handler, this)
+                                    }
+                            }
+                        }
+                        //用系统的执行
+                        handler.handleMessage(it)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    return true
+                }
+
+            })
+    }
+
+    private fun getThreadHandle(): Handler {
         //在startAct调用过程中，Uri后通过验证后，返回App，经过ActivityThread中的Handle启动Act
         //在一个app中，只有一个ActivityThread，同样的也只有一个Handle
         val clzActivityThread = Class.forName("android.app.ActivityThread")
@@ -73,30 +113,11 @@ class PreviewHook private constructor(): HookInterface {
         val handler =
             clzActivityThread.getDeclaredField("mH").apply { this.isAccessible = true }
                 .get(actThreadInstance) as Handler
-
-        Handler::class.java.getDeclaredField("mCallback").apply { this.isAccessible = true }
-            //替换掉原来的Callback
-            .set(handler, Handler.Callback {
-                try {
-                    when (it.what) {
-                        O_LAUNCH_ACTIVITY -> {
-                            handleO(app, it, replaceActClaz)
-                        }
-                        Q_EXECUTE_TRANSACTION -> {
-                            handleQ(app, it, replaceActClaz)
-                        }
-                    }
-                    //用系统的执行
-                    handler.handleMessage(it)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                true
-            })
+        return handler;
     }
 
     /**
-     * android9(O)及之前的执行策略
+     * android O(8.1 27 )及之前的执行策略
      */
     private fun handleO(
         context: Context,
@@ -113,7 +134,7 @@ class PreviewHook private constructor(): HookInterface {
     }
 
     /**
-     * android10(Q)及之后改变了执行策略
+     * android Q(10.0 29)及之后改变了执行策略
      */
     private fun handleQ(
         context: Context,
@@ -128,6 +149,7 @@ class PreviewHook private constructor(): HookInterface {
                 .getDeclaredField("mActivityCallbacks")
                 .apply { this.isAccessible = true }
                 .get(transaction) as List<Any>
+        listOf(2).firstOrNull()
         //因为马上要执行，一般在第0个
         if (actCBList.isNotEmpty()) {
             actCBList[0].takeIf { it.javaClass.name.equals("android.app.servertransaction.LaunchActivityItem") }
