@@ -12,9 +12,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/anyhook" />
-            <option value="$PROJECT_DIR$/anyhook-no-op" />
+            <option value="$PROJECT_DIR$/anyhook-until" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/hook-interface" />
+            <option value="$PROJECT_DIR$/preview-hook" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

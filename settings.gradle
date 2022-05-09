@@ -33,6 +33,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AnyHookDemo"
 include ':app'
+include ':preview-hook'
+include ':anyhook-until'
 include ':anyhook'
-include ':anyhook-no-op'
-include ':hook-interface'
+//include ':anyhook-no-op'
+//include ':hook-interface'

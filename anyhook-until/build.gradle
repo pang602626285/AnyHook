@@ -35,8 +35,8 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.phcdevelop.anyhook'
-                artifactId = 'anyhook'
-                version = "$app_version"
+                artifactId = 'anyhook_until'
+                version = "1.0.0"
             }
         }
     }

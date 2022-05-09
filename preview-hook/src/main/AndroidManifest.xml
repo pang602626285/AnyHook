@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.phcdevelop.anyhook.preview_hook">
+    <application>
+        <provider
+            android:authorities="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
+            android:name="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+        </provider>
+    </application>
+</manifest>

@@ -1,6 +1,5 @@
-package com.phcdevelop.anyhook.hook_interface
+package com.phcdevelop.anyhook.preview_hook.hook_interface
 
-import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity

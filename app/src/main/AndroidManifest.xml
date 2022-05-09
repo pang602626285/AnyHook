@@ -6,11 +6,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnyHookDemo">
-        <property android:name="app" android:value="123132"/>
 
         <activity
             android:name=".MainActivity"
@@ -23,13 +21,7 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:authorities="com.phcdevelop.anyhook.provider.AnyProvider"
-            android:name="com.phcdevelop.anyhook.provider.AnyProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data android:name="previewActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
-        </provider>
+        <meta-data android:name="previewHookActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
     </application>
 
 </manifest>

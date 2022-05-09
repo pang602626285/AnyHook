@@ -16,14 +16,9 @@
   ```gradle
       debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
   ```
-  在AndroidManifest中添加
+  在AndroidManifest的application根节点中添加
   ```xml
-          <provider
-              android:authorities="com.phcdevelop.anyhook.provider.AnyProvider"
-              android:name="com.phcdevelop.anyhook.provider.AnyProvider"
-              android:grantUriPermissions="true"
-              android:exported="false">
-              <meta-data android:name="previewActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
-          </provider>
+                  <meta-data android:name="previewHookActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
+
   ```
-  其中previewActName对应的value为ComponentActivity的子类（不需要在manifest中注册）的全包名。这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
+  其中previewHookActName对应的value为ComponentActivity的子类（不需要在manifest中注册）的全包名。这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例

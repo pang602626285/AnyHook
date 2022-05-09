@@ -2,7 +2,7 @@ package com.phcdevelop.anyhook.hook
 
 import android.app.Application
 import androidx.activity.ComponentActivity
-import com.phcdevelop.anyhook.hook_interface.HookInterface
+import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
 
 /**
  * @Author PHC

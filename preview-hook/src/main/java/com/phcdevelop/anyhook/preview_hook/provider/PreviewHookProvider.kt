@@ -1,4 +1,4 @@
-package com.phcdevelop.anyhook.provider
+package com.phcdevelop.anyhook.preview_hook.provider
 
 import android.app.Activity
 import android.app.Application
@@ -9,16 +9,20 @@ import android.content.pm.ProviderInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
-import com.phcdevelop.anyhook.hook.PreviewHook
+import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
 
 
-class AnyProvider : FileProvider() {
-    private val PREVIEW_ACT_NAME = "previewActName"
+class PreviewHookProvider : FileProvider() {
+    companion object{
+        const val PREVIEW_ACT_NAME = "previewHookActName"
+    }
 
     override fun attachInfo(context: Context, info: ProviderInfo) {
 //        super.attachInfo(context, info)
-        val componentName = ComponentName(context,AnyProvider::class.java.name)
-        context.packageManager.getProviderInfo(componentName, PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)?.takeIf { it.isNotEmpty() }?.let { actName->
+        val componentName = ComponentName(context, PreviewHookProvider::class.java.name)
+//        val hookName = context.packageManager.getProviderInfo(componentName, PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)
+        val hookName = context.packageManager.getApplicationInfo(context.packageName,PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)
+        hookName?.takeIf { it.isNotEmpty() }?.let { actName->
             PreviewHook.instance.init(context as Application,
                 Class.forName(actName) as Class<out ComponentActivity>
             )

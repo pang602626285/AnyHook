@@ -1,4 +1,4 @@
-package com.phcdevelop.anyhook.hook
+package com.phcdevelop.anyhook.preview_hook.hook
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -11,8 +11,9 @@ import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.tooling.PreviewActivity
-import com.phcdevelop.anyhook.hook_interface.HookInterface
-import com.phcdevelop.anyhook.until.PreviewActReflect.reflectActCreate
+import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
+import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
+import com.phcdevelop.anyhook.preview_hook.until.PreviewActReflect.reflectActCreate
 
 /**
  * @Author PHC
@@ -45,6 +46,7 @@ class PreviewHook private constructor(): HookInterface {
      */
     override fun onActCreate(activity: ComponentActivity) {
         activity.reflectActCreate()
+        PreviewHookProvider.PREVIEW_ACT_NAME
 //        val intent = Intent(activity.intent)
 //        intent.component = ComponentName(activity,PreviewActivity::class.java)
 //        activity.startActivity(intent)
