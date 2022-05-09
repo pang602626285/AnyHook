@@ -80,18 +80,20 @@ internal class PreviewHook private constructor() : HookInterface {
                             Q_EXECUTE_TRANSACTION -> {
                                 handleQ(app, it, replaceActClaz)
                             }
-                            BIND_APPLICATION -> {
-                                Handler::class.java.getDeclaredField("mCallback")
-                                    .apply { this.isAccessible = true }
-                                    .takeIf { it.get(handler)?.equals(this) != true }//不相等说明callback被替换，再次替换回来
-                                    ?.let {
-                                        Log.i(TAG,"Handler's mCallback replace success!")
-                                        it.set(handler, this)
-                                    }
-                            }
+
                         }
                         //用系统的执行
                         handler.handleMessage(it)
+
+                        if(BIND_APPLICATION == it.what) {
+                            Handler::class.java.getDeclaredField("mCallback")
+                                .apply { this.isAccessible = true }
+                                .takeIf { it.get(handler)?.equals(this) != true }//不相等说明callback被替换，再次替换回来
+                                ?.let {
+                                    Log.i(TAG,"Handler's mCallback replace success!")
+                                    it.set(handler, this)
+                                }
+                        }
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
