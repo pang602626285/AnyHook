@@ -3,7 +3,7 @@
     package="com.phcdevelop.anyhook.preview_hook">
     <application>
         <provider
-            android:authorities="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
+            android:authorities="${PREVIEW_HOOK_PROVIDER_AUTHORITIES}"
             android:name="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
             android:grantUriPermissions="true"
             android:exported="false">

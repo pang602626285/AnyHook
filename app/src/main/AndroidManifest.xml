@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AnyHookDemo">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LaunchAct"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AnyHookDemo" >

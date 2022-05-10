@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Message
 import android.util.Log
@@ -24,7 +25,7 @@ internal class PreviewHook private constructor() : HookInterface {
         private val TAG = PreviewHook::class.java.name
 
 
-        private val NAME_PREVIEW_ACT = PreviewActivity::class.java.name
+        private val NAME_Tool_PREVIEW_ACT = PreviewActivity::class.java.name
 //    private val NAME_PREVIEW_ACT = "androidx.compose.ui.tooling.PreviewActivity"
         /**
          * 执行bindAPP操作，各版本一致
@@ -41,19 +42,69 @@ internal class PreviewHook private constructor() : HookInterface {
          */
         private const val Q_EXECUTE_TRANSACTION = 159
 
+        @JvmStatic
         val instance: HookInterface by lazy { PreviewHook() }
     }
 
+    var systemHandlerCallback: Handler.Callback? = null
+
+    private var app: Application? = null
+    private var replaceActClaz: Class<out ComponentActivity>? = null
+
+    private val mHandlerCallback by lazy {
+        Handler.Callback {
+            try {
+                Log.i(TAG, "handleMessage${it.what}")
+                systemHandlerCallback?.handleMessage(it)//执行系统本来的
+                when (it.what) {
+                    O_LAUNCH_ACTIVITY -> {
+                        handleO(app, it, replaceActClaz)
+                    }
+                    Q_EXECUTE_TRANSACTION -> {
+                        handleQ(app, it, replaceActClaz)
+                    }
+
+                }
+                //用系统的执行
+                /*handler.handleMessage(it)
+
+                    if(BIND_APPLICATION == it.what) {
+                        Handler::class.java.getDeclaredField("mCallback")
+                            .apply { this.isAccessible = true }
+                            .takeIf { it.get(handler)?.equals(this) != true }//不相等说明callback被替换，再次替换回来
+                            ?.let {
+                                Log.i(TAG,"Handler's mCallback replace success!")
+                                it.set(handler, this)
+                            }
+                    }*/
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            false
+        }
+    }
 
     /**
      * 需要在activity 的onCreate方法中调用
      */
     override fun onActCreate(activity: ComponentActivity) {
         activity.reflectActCreate()
-        PreviewHookProvider.PREVIEW_ACT_NAME
 //        val intent = Intent(activity.intent)
 //        intent.component = ComponentName(activity,PreviewActivity::class.java)
 //        activity.startActivity(intent)
+    }
+
+    override fun init(app: Application) {
+        val hookName = app.packageManager.getApplicationInfo(
+            app.packageName,
+            PackageManager.GET_META_DATA
+        ).metaData.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
+        hookName?.takeIf { it.isNotEmpty() }?.let { actName ->
+            init(
+                app,
+                Class.forName(actName) as Class<out ComponentActivity>
+            )
+        }
     }
 
     /**
@@ -66,44 +117,20 @@ internal class PreviewHook private constructor() : HookInterface {
             Log.i(TAG, "Application is not debuggable. Don't need hook!")
             return
         }
-        val handler = getThreadHandle()
+        this.app = app
+        this.replaceActClaz = replaceActClaz
+        val handler = getSystemHandle()
 
         Handler::class.java.getDeclaredField("mCallback").apply { this.isAccessible = true }
-            //替换掉原来的Callback
-            .set(handler, object : Handler.Callback {
-                override fun handleMessage(it: Message): Boolean {
-                    try {
-                        when (it.what) {
-                            O_LAUNCH_ACTIVITY -> {
-                                handleO(app, it, replaceActClaz)
-                            }
-                            Q_EXECUTE_TRANSACTION -> {
-                                handleQ(app, it, replaceActClaz)
-                            }
+            ?.let {
+                systemHandlerCallback = it.get(handler) as? Handler.Callback
+                //替换掉原来的Callback
+                it.set(handler, mHandlerCallback)
+            }
 
-                        }
-                        //用系统的执行
-                        handler.handleMessage(it)
-
-                        if(BIND_APPLICATION == it.what) {
-                            Handler::class.java.getDeclaredField("mCallback")
-                                .apply { this.isAccessible = true }
-                                .takeIf { it.get(handler)?.equals(this) != true }//不相等说明callback被替换，再次替换回来
-                                ?.let {
-                                    Log.i(TAG,"Handler's mCallback replace success!")
-                                    it.set(handler, this)
-                                }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    return true
-                }
-
-            })
     }
 
-    private fun getThreadHandle(): Handler {
+    private fun getSystemHandle(): Handler {
         //在startAct调用过程中，Uri后通过验证后，返回App，经过ActivityThread中的Handle启动Act
         //在一个app中，只有一个ActivityThread，同样的也只有一个Handle
         val clzActivityThread = Class.forName("android.app.ActivityThread")
@@ -122,16 +149,17 @@ internal class PreviewHook private constructor() : HookInterface {
      * android O(8.1 27 )及之前的执行策略
      */
     private fun handleO(
-        context: Context,
+        context: Context?,
         msg: Message,
-        replaceActClaz: Class<out ComponentActivity>
+        replaceActClaz: Class<out ComponentActivity>?
     ) {
         val intent = msg.obj.javaClass.getDeclaredField("intent").let {
             it.isAccessible = true
             it.get(msg.obj)
         } as Intent
-        if (intent.component?.className == NAME_PREVIEW_ACT) {
-            intent.component = ComponentName(context, replaceActClaz)
+        if (intent.component?.className == NAME_Tool_PREVIEW_ACT) {
+            intent.component =
+                context?.let { replaceActClaz?.let { it1 -> ComponentName(it, it1) } }
         }
     }
 
@@ -139,9 +167,9 @@ internal class PreviewHook private constructor() : HookInterface {
      * android Q(10.0 29)及之后改变了执行策略
      */
     private fun handleQ(
-        context: Context,
+        context: Context?,
         it: Message,
-        replaceActClaz: Class<out ComponentActivity>
+        replaceActClaz: Class<out ComponentActivity>?
     ) {
 
         val transaction = it.obj
@@ -167,12 +195,16 @@ internal class PreviewHook private constructor() : HookInterface {
                                 )
                             intentField.set(launchActItem, rawIntent)*/
                             (intentField.get(launchActItem) as? Intent)?.takeIf { intent ->
-                                intent.component?.className == NAME_PREVIEW_ACT
+                                intent.component?.className == NAME_Tool_PREVIEW_ACT
                             }?.apply {
-                                this.component = ComponentName(
-                                    context,
-                                    replaceActClaz
-                                )
+                                this.component = context?.let { it1 ->
+                                    replaceActClaz?.let { it2 ->
+                                        ComponentName(
+                                            it1,
+                                            it2
+                                        )
+                                    }
+                                }
                             }
                         }
 

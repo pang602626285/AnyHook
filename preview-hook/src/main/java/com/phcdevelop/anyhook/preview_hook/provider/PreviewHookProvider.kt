@@ -17,10 +17,9 @@ class PreviewHookProvider : FileProvider() {
         const val PREVIEW_ACT_NAME = "previewHookActName"
     }
 
+
     override fun attachInfo(context: Context, info: ProviderInfo) {
 //        super.attachInfo(context, info)
-        val componentName = ComponentName(context, PreviewHookProvider::class.java.name)
-//        val hookName = context.packageManager.getProviderInfo(componentName, PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)
         val hookName = context.packageManager.getApplicationInfo(context.packageName,PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)
         hookName?.takeIf { it.isNotEmpty() }?.let { actName->
             PreviewHook.instance.init(context as Application,

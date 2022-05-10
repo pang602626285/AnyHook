@@ -17,6 +17,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+//        manifestPlaceholders =[
+//                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider"
+//        ]
     }
 
     buildTypes {
@@ -62,7 +65,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
 //    debugImplementation project(path: ':anyhook')
-//    debugImplementation project(path: ':preview-hook')
+    debugImplementation project(path: ':preview-hook')
 //    releaseImplementation project(path: ':anyhook-no-op')
 
 }
