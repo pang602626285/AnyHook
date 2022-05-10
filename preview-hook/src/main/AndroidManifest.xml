@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.phcdevelop.anyhook.preview_hook">
     <application>
+        <meta-data android:name="PREVIEW_HOOK_ACT_NAME" android:value="${PREVIEW_HOOK_ACT_NAME}"/>
         <provider
             android:authorities="${PREVIEW_HOOK_PROVIDER_AUTHORITIES}"
             android:name="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"

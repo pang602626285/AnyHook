@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MApp"
         android:theme="@style/Theme.AnyHookDemo">
 
         <activity
@@ -21,7 +22,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="previewHookActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
     </application>
 
 </manifest>

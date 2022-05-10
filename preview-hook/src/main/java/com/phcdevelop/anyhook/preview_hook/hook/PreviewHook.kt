@@ -123,9 +123,12 @@ internal class PreviewHook private constructor() : HookInterface {
 
         Handler::class.java.getDeclaredField("mCallback").apply { this.isAccessible = true }
             ?.let {
-                systemHandlerCallback = it.get(handler) as? Handler.Callback
-                //替换掉原来的Callback
-                it.set(handler, mHandlerCallback)
+                val callback = it.get(handler) as? Handler.Callback
+                if (callback == null || callback != mHandlerCallback) {
+                    systemHandlerCallback = callback
+                    //替换掉原来的Callback
+                    it.set(handler, mHandlerCallback)
+                }
             }
 
     }

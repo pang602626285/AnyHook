@@ -1,7 +1,6 @@
 package com.phcdevelop.anyhook.preview_hook_check.until
 
 import android.app.Application
-import com.phcdevelop.anyhook.until.method
 
 
 /**
@@ -13,9 +12,12 @@ object PreviewHookCheck {
      * 在app onCreate方法中调用，防止previewHook被别的框架替换掉Handler中的callback
      */
     @JvmStatic
-    fun checkOnAppOnCreate(app:Application){
-        "com.phcdevelop.anyhook.preview_hook.hook.PreviewHook".method("getInstance")?.invoke(null)?.let { instance->
-            Class.forName("com.phcdevelop.anyhook.preview_hook.hook.PreviewHook").getMethod("init",Application::class.java).invoke(instance,app)
+    fun checkOnAppOnCreate(app: Application) {
+        kotlin.runCatching {
+            val previewHookClass = Class.forName("com.phcdevelop.anyhook.preview_hook.hook.PreviewHook")
+            previewHookClass.getMethod("getInstance")?.invoke(null)?.let { instance ->
+                previewHookClass.getMethod("init", Application::class.java).invoke(instance, app)
+            }
         }
     }
 }

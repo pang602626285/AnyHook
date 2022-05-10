@@ -12,13 +12,39 @@
     }
   }
   ```
+##PreviewHook
   在app的build.gradle中添加
   ```gradle
-      debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
+  android{
+     defaultConfig {
+        ...
+        manifestPlaceholders =[
+                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider",//给provider提供的authorities,随便填，保证不重复就行
+                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity"//填写需要替换成的activity，需要是ComponentActivity的子类（不需要在manifest中注册）的全包名
+        ]
+    }
+  }
+    ...
+  dependencies {
+    debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
+  }
   ```
-  在AndroidManifest的application根节点中添加
-  ```xml
-                  <meta-data android:name="previewHookActName" android:value="com.phcdevelop.anyhookdemo.MainActivity"/>
 
-  ```
-  其中previewHookActName对应的value为ComponentActivity的子类（不需要在manifest中注册）的全包名。这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
+这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
+
+##PreviewHookCheck
+如果你的app使用了其他框架，也使用了替换ActivityThread.Handler.Callback的方式，导致PreviewHook无效，那么你就需要使用这个库
+添加依赖
+```gradle
+        implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
+```
+之后，在app初始化调用
+```kotlin
+class MApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        ...
+        PreviewHookCheck.checkOnAppOnCreate(this)
+    }
+}
+```

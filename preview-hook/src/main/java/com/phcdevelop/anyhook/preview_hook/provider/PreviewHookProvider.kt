@@ -14,7 +14,7 @@ import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
 
 class PreviewHookProvider : FileProvider() {
     companion object{
-        const val PREVIEW_ACT_NAME = "previewHookActName"
+        const val PREVIEW_ACT_NAME = "PREVIEW_HOOK_ACT_NAME"
     }
 
 
