@@ -17,9 +17,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
-//        manifestPlaceholders =[
-//                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider"
-//        ]
+        manifestPlaceholders =[
+                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider"
+        ]
     }
 
     buildTypes {
