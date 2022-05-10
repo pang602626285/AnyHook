@@ -53,9 +53,10 @@ internal class PreviewHook private constructor() : HookInterface {
 
     private val mHandlerCallback by lazy {
         Handler.Callback {
+            var result = false
             try {
                 Log.i(TAG, "handleMessage${it.what}")
-                systemHandlerCallback?.handleMessage(it)//执行系统本来的
+                result = systemHandlerCallback?.handleMessage(it)?:false//执行系统本来的
                 when (it.what) {
                     O_LAUNCH_ACTIVITY -> {
                         handleO(app, it, replaceActClaz)
@@ -80,7 +81,7 @@ internal class PreviewHook private constructor() : HookInterface {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            false
+            result
         }
     }
 
