@@ -1,8 +1,14 @@
 package com.phcdevelop.anyhook.until
 
 
-fun String.method(methodName: String) =
-    Class.forName(this).declaredMethods.firstOrNull { it.name.contains(methodName) }
+fun String.method(methodName: String,isStrictMode:Boolean = false) =
+    Class.forName(this).declaredMethods.firstOrNull {
+        if (isStrictMode){
+            it.name.equals(methodName)
+        }else {
+            it.name.contains(methodName)
+        }
+    }
         ?.apply {
             this.isAccessible = true
         }

@@ -1,5 +1,6 @@
 package com.phcdevelop.anyhook.preview_hook.until
 
+import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.ComposableInvoker
 import com.phcdevelop.anyhook.until.field
 import com.phcdevelop.anyhook.until.method
 
@@ -61,6 +63,7 @@ object PreviewActReflect {
      * Otherwise, the content will display a FAB that changes the argument value on click, cycling
      * through all the values in the provider's sequence.
      */
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     private fun ComponentActivity.setParameterizedContent(
         className: String,
         methodName: String,
@@ -93,6 +96,7 @@ object PreviewActReflect {
 
                 Scaffold(
                     content = {
+                        kotlin.runCatching {
                         "androidx.compose.ui.tooling.CommonPreviewUtils".method("invokeComposableViaReflection")
                             ?.invoke(
                                 "androidx.compose.ui.tooling.CommonPreviewUtils".field("INSTANCE")
@@ -108,6 +112,26 @@ object PreviewActReflect {
                             currentComposer,
                             previewParameters[index.value]
                         )*/
+                        }.getOrElse {
+                            if (it is ClassNotFoundException){//1.2.0
+                                "androidx.compose.ui.tooling.ComposableInvoker".method("invokeComposable",true)
+                                    ?.invoke(
+                                        "androidx.compose.ui.tooling.ComposableInvoker".field("INSTANCE")
+                                            ?.get(null),
+                                        className,
+                                        methodName,
+                                        currentComposer,
+                                        arrayOf(previewParameters[index.value])
+                                    )
+                                /*ComposableInvoker.invokeComposable(
+                                    className,
+                                    methodName,
+                                    currentComposer,
+                                    previewParameters[index.value]
+                                )*/
+
+                            }
+                        }
                     },
                     floatingActionButton = {
                         ExtendedFloatingActionButton(

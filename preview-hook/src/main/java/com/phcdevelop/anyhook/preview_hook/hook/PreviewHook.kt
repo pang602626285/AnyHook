@@ -12,6 +12,7 @@ import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.tooling.PreviewActivity
+import com.phcdevelop.anyhook.preview_hook.hook_interface.AsyncHook
 import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
 import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
 import com.phcdevelop.anyhook.preview_hook.until.PreviewActReflect.reflectActCreate
@@ -91,6 +92,10 @@ internal class PreviewHook private constructor() : HookInterface {
 //        val intent = Intent(activity.intent)
 //        intent.component = ComponentName(activity,PreviewActivity::class.java)
 //        activity.startActivity(intent)
+//        (activity as? AsyncHook)?.doHookTask()?.let {
+//            it.doOnCreate = {activity.reflectActCreate()}
+//            it.before()
+//        }
     }
 
     override fun init(app: Application) {
