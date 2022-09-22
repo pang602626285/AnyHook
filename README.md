@@ -12,7 +12,7 @@
     }
   }
   ```
-##PreviewHook
+## PreviewHook
   在app的build.gradle中添加
   ```gradle
   android{
@@ -32,7 +32,7 @@
 
 这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
 
-##PreviewHookCheck
+## PreviewHookCheck
 如果你的app使用了其他框架，也使用了替换ActivityThread.Handler.Callback的方式，导致PreviewHook无效，那么你就需要使用这个库
 添加依赖
 ```gradle
