@@ -22,8 +22,9 @@ class MainActivity : FragmentActivity() {
 
 @Preview
 @Composable
-fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
+fun Greeting(name: String="123") {
     Text(text = "Hello $name!")
+
 }
 
 @Preview(showBackground = true)

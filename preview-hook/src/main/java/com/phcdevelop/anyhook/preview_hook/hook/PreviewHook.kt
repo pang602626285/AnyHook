@@ -44,13 +44,14 @@ internal class PreviewHook private constructor() : HookInterface {
         private const val Q_EXECUTE_TRANSACTION = 159
 
         @JvmStatic
-        val instance: HookInterface by lazy { PreviewHook() }
+        val instance: PreviewHook by lazy { PreviewHook() }
     }
 
     var systemHandlerCallback: Handler.Callback? = null
 
     private var app: Application? = null
     private var replaceActClaz: Class<out ComponentActivity>? = null
+    var composeVer:String = ""
 
     private val mHandlerCallback by lazy {
         Handler.Callback {
@@ -99,10 +100,14 @@ internal class PreviewHook private constructor() : HookInterface {
     }
 
     override fun init(app: Application) {
-        val hookName = app.packageManager.getApplicationInfo(
+        var hookName:String? = null
+        app.packageManager.getApplicationInfo(
             app.packageName,
             PackageManager.GET_META_DATA
-        ).metaData.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
+        ).metaData.apply {
+            hookName = this.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
+            composeVer = this.getString(PreviewHookProvider.COMPOSE_VERSION)?:""
+        }
         hookName?.takeIf { it.isNotEmpty() }?.let { actName ->
             init(
                 app,

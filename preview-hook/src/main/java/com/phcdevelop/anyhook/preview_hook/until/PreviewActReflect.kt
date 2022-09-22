@@ -11,6 +11,8 @@ import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.ComposableInvoker
+import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
+import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
 import com.phcdevelop.anyhook.until.field
 import com.phcdevelop.anyhook.until.method
 
@@ -18,6 +20,25 @@ import com.phcdevelop.anyhook.until.method
  * 基于PreviewActivity中代码，通过放射进行调用
  */
 object PreviewActReflect {
+    val STR_COMMONPREVIEWUTILS:String
+    get() {
+        return if (PreviewHook.instance.composeVer == "1.2.0"){
+            "androidx.compose.ui.tooling.ComposableInvoker"
+        }else{
+            "androidx.compose.ui.tooling.CommonPreviewUtils"
+        }
+    }
+
+    val STR_INVOKECOMPOSABLEVIAREFLECTION:String
+    get() {
+        return if (PreviewHook.instance.composeVer == "1.2.0"){
+            "invokeComposable"
+        }else{
+            "invokeComposableViaReflection"
+        }
+    }
+
+
     internal fun ComponentActivity.reflectActCreate() {
         if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 0) {
             finish()
@@ -39,9 +60,9 @@ object PreviewActReflect {
         }
         //没有provider
         setContent {
-            "androidx.compose.ui.tooling.CommonPreviewUtils".method("invokeComposableViaReflection")
+            STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION, isStrictMode = true)
                 ?.invoke(
-                    "androidx.compose.ui.tooling.CommonPreviewUtils".field("INSTANCE")
+                    STR_COMMONPREVIEWUTILS.field("INSTANCE")
                         ?.get(null),
                     className,
                     methodName,
@@ -97,9 +118,9 @@ object PreviewActReflect {
                 Scaffold(
                     content = {
                         kotlin.runCatching {
-                        "androidx.compose.ui.tooling.CommonPreviewUtils".method("invokeComposableViaReflection")
+                        STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
                             ?.invoke(
-                                "androidx.compose.ui.tooling.CommonPreviewUtils".field("INSTANCE")
+                                STR_COMMONPREVIEWUTILS.field("INSTANCE")
                                     ?.get(null),
                                 className,
                                 methodName,
@@ -145,9 +166,9 @@ object PreviewActReflect {
             }
         } else {
             setContent {
-                "androidx.compose.ui.tooling.CommonPreviewUtils".method("invokeComposableViaReflection")
+                STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
                     ?.invoke(
-                        "androidx.compose.ui.tooling.CommonPreviewUtils".field("INSTANCE")
+                        STR_COMMONPREVIEWUTILS.field("INSTANCE")
                             ?.get(null),
                         className,
                         methodName,

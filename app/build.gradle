@@ -19,7 +19,8 @@ android {
         }
         manifestPlaceholders =[
                 PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider",
-                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity"
+                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity",
+                COMPOSE_VERSION:"$compose_version",
         ]
     }
 
