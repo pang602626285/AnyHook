@@ -11,6 +11,13 @@
         maven { url 'https://jitpack.io' }
     }
   }
+  
+  buildscript {
+    ext {
+        compose_version = '1.2.0'//对应的compose版本号
+        ...
+    }
+}
   ```
 ## PreviewHook
   在app的build.gradle中添加
@@ -20,7 +27,8 @@
         ...
         manifestPlaceholders =[
                 PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider",//给provider提供的authorities,随便填，保证不重复就行
-                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity"//填写需要替换成的activity，需要是ComponentActivity的子类（不需要在manifest中注册）的全包名
+                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity",//填写需要替换成的activity，需要是ComponentActivity的子类（不需要在manifest中注册）的全包名
+                 COMPOSE_VERSION:"$compose_version",//传入compose版本号
         ]
     }
   }
