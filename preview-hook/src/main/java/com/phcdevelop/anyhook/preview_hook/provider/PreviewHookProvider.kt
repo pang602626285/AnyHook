@@ -2,7 +2,6 @@ package com.phcdevelop.anyhook.preview_hook.provider
 
 import android.app.Activity
 import android.app.Application
-import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.ProviderInfo
@@ -10,7 +9,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
 import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
-import com.phcdevelop.anyhook.preview_hook_callback.ASyncCallback
+import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhook.utils.ThreadUtils
 
 
@@ -31,7 +30,7 @@ class PreviewHookProvider : FileProvider() {
             (context as? Application)?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     when{
-                        activity is ComponentActivity && activity is ASyncCallback ->{
+                        activity is ComponentActivity && activity is AsyncCallback ->{
                             activity.doAsync {
                                 ThreadUtils.isMain {
                                     PreviewHook.instance.onActCreate(activity)
