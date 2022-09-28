@@ -34,7 +34,7 @@ dependencyResolutionManagement {
 rootProject.name = "AnyHookDemo"
 include ':app'
 include ':preview-hook'
-include ':anyhook-until'
+include ':anyhook-utils'
 include ':anyhook'
 include ':preview-hook-check'
 //include ':anyhook-no-op'

@@ -24,9 +24,7 @@ class MainActivity : FragmentActivity(),ASyncCallback {
     override fun doAsync(doOnCreate: () -> Unit) {
         thread {
             Thread.sleep(3000)
-            doMain{//必须切换到主线程执行
                 doOnCreate()
-            }
         }
     }
 }

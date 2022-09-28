@@ -1,7 +1,7 @@
 package com.phcdevelop.anyhookdemo
 
 import android.app.Application
-import com.phcdevelop.anyhook.preview_hook_check.until.PreviewHookCheck
+import com.phcdevelop.anyhook.preview_hook_check.utils.PreviewHookCheck
 
 /**
  * @Author PHC
