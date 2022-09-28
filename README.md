@@ -56,3 +56,22 @@ class MApp: Application() {
     }
 }
 ```
+
+## PreviewHookCallback
+增加了异步回调的支持，如果你需要在composeAct执行前需要初始化app某些配置，可以使用
+
+```kotlin
+class MainActivity : FragmentActivity(),ASyncCallback {
+
+    override fun doAsync(doOnCreate: () -> Unit) {
+        thread {
+            //业务逻辑执行
+            ...
+            
+            doMain{//必须切换到主线程执行
+                doOnCreate()
+            }
+        }
+    }
+}
+```

@@ -10,6 +10,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
 import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
+import com.phcdevelop.anyhook.preview_hook_callback.ASyncCallback
+import com.phcdevelop.anyhook.utils.ThreadUtils
 
 
 class PreviewHookProvider : FileProvider() {
@@ -28,8 +30,19 @@ class PreviewHookProvider : FileProvider() {
             )
             (context as? Application)?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                    activity.takeIf { it is ComponentActivity && it.javaClass.name.equals(actName)}?.let {
-                        PreviewHook.instance.onActCreate(it as ComponentActivity)
+                    when{
+                        activity is ComponentActivity && activity is ASyncCallback ->{
+                            activity.doAsync {
+                                ThreadUtils.isMain {
+                                    PreviewHook.instance.onActCreate(activity)
+                                }?: kotlin.run {
+                                    throw Exception("Must run on main thread")
+                                }
+                            }
+                        }
+                        activity is ComponentActivity && activity.javaClass.name.equals(actName)->{
+                            PreviewHook.instance.onActCreate(activity)
+                        }
                     }
                 }
 

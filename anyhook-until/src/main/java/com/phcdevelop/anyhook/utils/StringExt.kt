@@ -1,4 +1,4 @@
-package com.phcdevelop.anyhook.until
+package com.phcdevelop.anyhook.utils
 
 
 fun String.method(methodName: String,isStrictMode:Boolean = false) =

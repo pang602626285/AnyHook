@@ -10,19 +10,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.fragment.app.FragmentActivity
+import com.phcdevelop.anyhook.preview_hook_callback.ASyncCallback
 import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
+import kotlin.concurrent.thread
 
-class MainActivity : FragmentActivity() {
+class MainActivity : FragmentActivity(),ASyncCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Toast.makeText(this, "hook success!!", Toast.LENGTH_LONG).show()
 
     }
+
+    override fun doAsync(doOnCreate: () -> Unit) {
+        thread {
+            Thread.sleep(3000)
+            doMain{//必须切换到主线程执行
+                doOnCreate()
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
-fun Greeting(name: String="123") {
+fun Greeting(@PreviewParameter(TestProvider::class) name: String="123") {
     Text(text = "Hello $name!")
 
 }
