@@ -18,23 +18,23 @@ import com.phcdevelop.anyhook.utils.method
  * 基于PreviewActivity中代码，通过放射进行调用
  */
 object PreviewActReflect {
-    val STR_COMMONPREVIEWUTILS:String
-    get() {
-        return if (PreviewHook.instance.composeVer == "1.2.0"){
-            "androidx.compose.ui.tooling.ComposableInvoker"
-        }else{
-            "androidx.compose.ui.tooling.CommonPreviewUtils"
+    val STR_COMMONPREVIEWUTILS: String
+        get() {
+            return if (PreviewHook.instance.composeVer == "1.2.0") {
+                "androidx.compose.ui.tooling.ComposableInvoker"
+            } else {
+                "androidx.compose.ui.tooling.CommonPreviewUtils"
+            }
         }
-    }
 
-    val STR_INVOKECOMPOSABLEVIAREFLECTION:String
-    get() {
-        return if (PreviewHook.instance.composeVer == "1.2.0"){
-            "invokeComposable"
-        }else{
-            "invokeComposableViaReflection"
+    val STR_INVOKECOMPOSABLEVIAREFLECTION: String
+        get() {
+            return if (PreviewHook.instance.composeVer == "1.2.0") {
+                "invokeComposable"
+            } else {
+                "invokeComposableViaReflection"
+            }
         }
-    }
 
 
     internal fun ComponentActivity.reflectActCreate() {
@@ -92,7 +92,7 @@ object PreviewActReflect {
         val asPreviewProviderClass =
             "androidx.compose.ui.tooling.PreviewUtilsKt".method("asPreviewProviderClass")
                 ?.invoke(
-                    null,parameterProvider,
+                    null, parameterProvider,
                 )
         val previewParameters =
             "androidx.compose.ui.tooling.PreviewUtilsKt".method("getPreviewProviderParameters")
@@ -101,10 +101,10 @@ object PreviewActReflect {
                     asPreviewProviderClass, intent.getIntExtra("parameterProviderIndex", -1)
                 ) as Array<Any?>
 
-/*        val previewParameters = getPreviewProviderParameters(
-            parameterProvider.asPreviewProviderClass(),
-            intent.getIntExtra("parameterProviderIndex", -1)
-        )*/
+        /*        val previewParameters = getPreviewProviderParameters(
+                    parameterProvider.asPreviewProviderClass(),
+                    intent.getIntExtra("parameterProviderIndex", -1)
+                )*/
 
         // Handle the case where parameterProviderIndex is not provided. In this case, instead of
         // showing an arbitrary value (e.g. the first one), we display a FAB that can be used to
@@ -112,44 +112,43 @@ object PreviewActReflect {
         if (previewParameters.size > 1) {//多个预览值的展示
             setContent {
                 val index = remember { mutableStateOf(0) }
-
                 Scaffold(
                     content = {
                         kotlin.runCatching {
-                        STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
-                            ?.invoke(
-                                STR_COMMONPREVIEWUTILS.field("INSTANCE")
-                                    ?.get(null),
-                                className,
-                                methodName,
-                                currentComposer,
-                                arrayOf(previewParameters[index.value])
-                            )
-                        /*invokeComposableViaReflection(
-                            className,
-                            methodName,
-                            currentComposer,
-                            previewParameters[index.value]
-                        )*/
-                        }.getOrElse {
-                            if (it is ClassNotFoundException){//1.2.0
-                                "androidx.compose.ui.tooling.ComposableInvoker".method("invokeComposable",true)
+                                STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
                                     ?.invoke(
-                                        "androidx.compose.ui.tooling.ComposableInvoker".field("INSTANCE")
+                                        STR_COMMONPREVIEWUTILS.field("INSTANCE")
                                             ?.get(null),
                                         className,
                                         methodName,
                                         currentComposer,
                                         arrayOf(previewParameters[index.value])
                                     )
-                                /*ComposableInvoker.invokeComposable(
+                            /*invokeComposableViaReflection(
+                                className,
+                                methodName,
+                                currentComposer,
+                                previewParameters[index.value]
+                            )*/
+                        }.getOrElse {
+//                            if (it is Exception){//1.2.0
+                            STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION, true)
+                                ?.invoke(
+                                    STR_COMMONPREVIEWUTILS.field("INSTANCE")
+                                        ?.get(null),
                                     className,
                                     methodName,
                                     currentComposer,
-                                    previewParameters[index.value]
-                                )*/
+                                    arrayOf(previewParameters[index.value])
+                                )
+                            /*ComposableInvoker.invokeComposable(
+                                className,
+                                methodName,
+                                currentComposer,
+                                previewParameters[index.value]
+                            )*/
 
-                            }
+//                            }
                         }
                     },
                     floatingActionButton = {
@@ -164,15 +163,29 @@ object PreviewActReflect {
             }
         } else {
             setContent {
-                STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
-                    ?.invoke(
-                        STR_COMMONPREVIEWUTILS.field("INSTANCE")
-                            ?.get(null),
-                        className,
-                        methodName,
-                        currentComposer,
-                        *previewParameters
-                    )
+                kotlin.runCatching {
+                    STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION)
+                        ?.invoke(
+                            STR_COMMONPREVIEWUTILS.field("INSTANCE")
+                                ?.get(null),
+                            className,
+                            methodName,
+                            currentComposer,
+                            previewParameters
+                        )
+                }.getOrElse {
+                    if (it is Exception) {//1.2.0
+                    STR_COMMONPREVIEWUTILS.method(STR_INVOKECOMPOSABLEVIAREFLECTION, true)
+                        ?.invoke(
+                            STR_COMMONPREVIEWUTILS.field("INSTANCE")
+                                ?.get(null),
+                            className,
+                            methodName,
+                            currentComposer,
+                            previewParameters
+                        )
+                    }
+                }
                 /*  invokeComposableViaReflection(
                       className,
                       methodName,

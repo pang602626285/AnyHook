@@ -13,24 +13,21 @@ import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
 import kotlin.concurrent.thread
 
-class MainActivity : FragmentActivity(),AsyncCallback {
+class MainActivity : FragmentActivity(),AsyncCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Toast.makeText(this, "hook success!!", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "hook success1!!", Toast.LENGTH_LONG).show()
 
     }
 
     override fun doAsync(doOnCreate: () -> Unit) {
-        thread {
-            Thread.sleep(3000)
-                doOnCreate()
-        }
+        doOnCreate()
     }
 }
 
 @Preview
 @Composable
-fun Greeting(@PreviewParameter(TestProvider::class) name: String="123") {
+fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
     Text(text = "Hello $name!")
 
 }
@@ -45,6 +42,8 @@ fun DefaultPreview() {
 
 class TestProvider : PreviewParameterProvider<String> {
     override val values: Sequence<String>
-        get() = sequenceOf("test", "123")
+        get() = sequenceOf("test",
+            "123"
+        )
 
 }
