@@ -50,7 +50,7 @@ internal class PreviewHook private constructor() : HookInterface {
 
     private var app: Application? = null
     private var replaceActClaz: Class<out ComponentActivity>? = null
-    var composeVer:String = ""
+    var composeVer:Int = 0
 
     private val mHandlerCallback by lazy {
         Handler.Callback {
@@ -105,7 +105,7 @@ internal class PreviewHook private constructor() : HookInterface {
             PackageManager.GET_META_DATA
         ).metaData.apply {
             hookName = this.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
-            composeVer = this.getString(PreviewHookProvider.COMPOSE_VERSION)?:""
+            composeVer = this.getString(PreviewHookProvider.COMPOSE_VERSION)?.replace(".","")?.toInt()?:0
         }
         hookName?.takeIf { it.isNotEmpty() }?.let { actName ->
             init(

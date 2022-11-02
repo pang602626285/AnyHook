@@ -20,7 +20,7 @@ import com.phcdevelop.anyhook.utils.method
 object PreviewActReflect {
     val STR_COMMONPREVIEWUTILS: String
         get() {
-            return if (PreviewHook.instance.composeVer == "1.2.0") {
+            return if (PreviewHook.instance.composeVer >= 120) {
                 "androidx.compose.ui.tooling.ComposableInvoker"
             } else {
                 "androidx.compose.ui.tooling.CommonPreviewUtils"
@@ -29,7 +29,7 @@ object PreviewActReflect {
 
     val STR_INVOKECOMPOSABLEVIAREFLECTION: String
         get() {
-            return if (PreviewHook.instance.composeVer == "1.2.0") {
+            return if (PreviewHook.instance.composeVer >= 120) {
                 "invokeComposable"
             } else {
                 "invokeComposableViaReflection"
