@@ -35,7 +35,7 @@ class PreviewHookProvider : CPAdapter() {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     when{
                         activity is ComponentActivity && activity is AsyncCallback ->{
-                            activity.doAsync {
+                            activity.doAsync(activity) {
                                 ThreadUtils.isMain {
                                     PreviewHook.instance.onActCreate(activity)
                                 }?: kotlin.run {
