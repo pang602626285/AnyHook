@@ -45,8 +45,8 @@
     ...
   dependencies {
     debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
-    kapt 'com.github.phcdevelop.anyhook:compiler:latestVersion'
-    implementation 'com.github.phcdevelop.anyhook:annotation:latestVersion'
+    kapt 'com.github.phcdevelop.anyhook:preview-hook-compiler:latestVersion'
+    implementation 'com.github.phcdevelop.anyhook:preview-hook-annotation:latestVersion'
   }
   ```
 
