@@ -2,6 +2,7 @@ package com.phcdevelop.anyhook.preview_hook.provider
 
 import android.app.Activity
 import android.app.Application
+import android.content.ContentProvider
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.ProviderInfo
@@ -16,7 +17,7 @@ import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
 import java.util.*
 
 
-class PreviewHookProvider : FileProvider() {
+class PreviewHookProvider : CPAdapter() {
     companion object{
         const val PREVIEW_ACT_NAME = "PREVIEW_HOOK_ACT_NAME"
         const val COMPOSE_VERSION = "COMPOSE_VERSION"

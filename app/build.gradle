@@ -50,16 +50,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':preview-hook-check')
-    implementation project(path: ':preview-hook-callback')
-    implementation project(path: ':base')
-    debugImplementation project(path: ':preview-hook')
-    kapt project(':preview-hook-compiler')
-    implementation project(path: ':preview-hook-annotation')
-
-//    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-callback:$anyhookVersion"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
@@ -79,7 +69,19 @@ dependencies {
 //    releaseImplementation project(path: ':anyhook-no-op')
     implementation("io.coil-kt:coil-compose:2.1.0")
 
+//    implementation project(path: ':preview-hook-check')
+//    implementation project(path: ':preview-hook-callback')
+//    implementation project(path: ':base')
+//    debugImplementation project(path: ':preview-hook')
+//    kapt project(':preview-hook-compiler')
+//    implementation project(path: ':preview-hook-annotation')
 
+    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-callback:$anyhookVersion"
+    kapt "com.github.phcdevelop.anyhook:preview-hook-compiler:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-annotation:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"
 
 
 }

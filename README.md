@@ -44,9 +44,11 @@
   }
     ...
   dependencies {
-    debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
-    kapt 'com.github.phcdevelop.anyhook:preview-hook-compiler:latestVersion'
-    implementation 'com.github.phcdevelop.anyhook:preview-hook-annotation:latestVersion'
+    debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'//hook库
+    kapt 'com.github.phcdevelop.anyhook:preview-hook-compiler:latestVersion'//APT库
+    implementation 'com.github.phcdevelop.anyhook:preview-hook-annotation:latestVersion'//注解库
+    implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"//基础库
+
   }
   ```
 
