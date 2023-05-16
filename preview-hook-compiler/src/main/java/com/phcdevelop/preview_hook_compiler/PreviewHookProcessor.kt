@@ -78,11 +78,11 @@ public class PreviewHookProcessor : AbstractProcessor() {
             val clazzBuilder = TypeSpec.classBuilder("PreviewHook\$PreviewAct")
                 .addAnnotation(
                     AnnotationSpec.builder(AutoService::class.java)
-                    .addMember("value","{\$N.class}",PreviewCreateAct::class.java.simpleName)
+                    .addMember("value","{\$N.class}",PreviewCreateAct::class.java.simpleName)//给生成的类打上PreviewCreateAct标记
                     .build()
                 )
                 .addModifiers(Modifier.PUBLIC)
-                .run {
+                .run {//是否执行了父类，默认取ComponentAct
                     if (actParentClazz == null){
                         this.superclass(Class.forName(DEAFAULT_ACT_PARENT))
                     }else{

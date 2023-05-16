@@ -15,7 +15,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.java
                 groupId = 'com.github.phcdevelop.anyhook'
-                artifactId = 'preview-hook-compiler'
+                artifactId = 'preview-hook-annotation'
                 version = "$app_version"
             }
         }
