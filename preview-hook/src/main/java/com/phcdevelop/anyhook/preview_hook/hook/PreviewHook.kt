@@ -12,9 +12,12 @@ import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.tooling.PreviewActivity
+import com.google.auto.service.AutoService
 import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
 import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
 import com.phcdevelop.anyhook.preview_hook.utils.PreviewActReflect.reflectActCreate
+import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
+import java.util.ServiceLoader
 
 /**
  * @Author PHC
@@ -104,7 +107,8 @@ internal class PreviewHook private constructor() : HookInterface {
             app.packageName,
             PackageManager.GET_META_DATA
         ).metaData.apply {
-            hookName = this.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
+            hookName = ServiceLoader.load(PreviewCreateAct::class.java).iterator().next().javaClass.canonicalName//获取名字
+//            hookName = this.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
             composeVer = this.getString(PreviewHookProvider.COMPOSE_VERSION)?.replace(".","")?.toInt()?:0
         }
         hookName?.takeIf { it.isNotEmpty() }?.let { actName ->

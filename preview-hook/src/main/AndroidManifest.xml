@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.phcdevelop.anyhook.preview_hook">
     <application>
-        <meta-data android:name="PREVIEW_HOOK_ACT_NAME" android:value="${PREVIEW_HOOK_ACT_NAME}"/>
+<!--        <meta-data android:name="PREVIEW_HOOK_ACT_NAME" android:value="${PREVIEW_HOOK_ACT_NAME}"/>-->
         <meta-data android:name="COMPOSE_VERSION" android:value="${COMPOSE_VERSION}"/>
         <provider
-            android:authorities="${PREVIEW_HOOK_PROVIDER_AUTHORITIES}"
+            android:authorities="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
             android:name="com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider"
             android:grantUriPermissions="true"
             android:exported="false">

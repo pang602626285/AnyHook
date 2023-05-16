@@ -14,9 +14,12 @@
             <option value="$PROJECT_DIR$/anyhook" />
             <option value="$PROJECT_DIR$/anyhook-utils" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/preview-hook" />
+            <option value="$PROJECT_DIR$/preview-hook-annotation" />
+            <option value="$PROJECT_DIR$/preview-hook-callback" />
             <option value="$PROJECT_DIR$/preview-hook-check" />
-            <option value="$PROJECT_DIR$/preview_hook_callback" />
+            <option value="$PROJECT_DIR$/preview-hook-compiler" />
           </set>
         </option>
       </GradleProjectSettings>

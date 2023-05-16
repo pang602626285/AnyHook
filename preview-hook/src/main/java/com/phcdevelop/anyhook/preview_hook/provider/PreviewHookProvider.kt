@@ -9,8 +9,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
 import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
+import com.phcdevelop.anyhook.preview_hook.utils.ActLifecycleAdapter
 import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhook.utils.ThreadUtils
+import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
+import java.util.*
 
 
 class PreviewHookProvider : FileProvider() {
@@ -22,12 +25,12 @@ class PreviewHookProvider : FileProvider() {
 
     override fun attachInfo(context: Context, info: ProviderInfo) {
 //        super.attachInfo(context, info)
-        val hookName = context.packageManager.getApplicationInfo(context.packageName,PackageManager.GET_META_DATA).metaData.getString(PREVIEW_ACT_NAME)
+        val hookName = ServiceLoader.load(PreviewCreateAct::class.java).iterator().next().javaClass.canonicalName//获取名字
         hookName?.takeIf { it.isNotEmpty() }?.let { actName->
             PreviewHook.instance.init(context as Application,
                 Class.forName(actName) as Class<out ComponentActivity>
             )
-            (context as? Application)?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+            (context as? Application)?.registerActivityLifecycleCallbacks(object :Application.ActivityLifecycleCallbacks by ActLifecycleAdapter.proxy{
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     when{
                         activity is ComponentActivity && activity is AsyncCallback ->{
@@ -43,24 +46,6 @@ class PreviewHookProvider : FileProvider() {
                             PreviewHook.instance.onActCreate(activity)
                         }
                     }
-                }
-
-                override fun onActivityStarted(activity: Activity) {
-                }
-
-                override fun onActivityResumed(activity: Activity) {
-                }
-
-                override fun onActivityPaused(activity: Activity) {
-                }
-
-                override fun onActivityStopped(activity: Activity) {
-                }
-
-                override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-                }
-
-                override fun onActivityDestroyed(activity: Activity) {
                 }
             })
         }

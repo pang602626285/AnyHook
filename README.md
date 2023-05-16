@@ -1,9 +1,14 @@
-# AnyHook 
+# AnyHook
+
 ## 前言
-在compose的设定中，只能获取到PreviewActivity的实例，其继承于ComponentActivity。写了这个库，为了在compose的Preview功能时，通过LocalContext.current能获取到对应activity子类的实例。主要是用了动态代理和反射，在ActivityThread最后启动activity时，把要启动的PreviewActivity信息换成我们自己的。
+
+在compose的设定中，只能获取到PreviewActivity的实例，其继承于ComponentActivity。写了这个库，为了在compose的Preview功能时，通过LocalContext.current能获取到对应activity子类的实例。
+主要是用了APT生成指定的BaseAct子类，之后使用动态代理、反射，在ActivityThread最后启动activity时，把要启动的PreviewActivity信息换成我们自己的。
 
 ## 使用方法
-  在根目录下的build.gradle中添加
+
+在根目录下的build.gradle中添加
+
   ```gradle
   allprojects {
     repositories {
@@ -19,34 +24,89 @@
     }
 }
   ```
+
 ## PreviewHook
-  在app的build.gradle中添加
+
+在app的build.gradle中添加
+
   ```gradle
+  plugins {
+    ...
+    id 'kotlin-kapt'
+  }
+
   android{
      defaultConfig {
         ...
-        manifestPlaceholders =[
-                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider",//给provider提供的authorities,随便填，保证不重复就行
-                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity",//填写需要替换成的activity，需要是ComponentActivity的子类（不需要在manifest中注册）的全包名
-                COMPOSE_VERSION:"$compose_version",//传入compose版本号
+        manifestPlaceholders =[ COMPOSE_VERSION:"$compose_version",//传入compose版本号
         ]
     }
   }
     ...
   dependencies {
     debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'
+    kapt 'com.github.phcdevelop.anyhook:compiler:latestVersion'
+    implementation 'com.github.phcdevelop.anyhook:annotation:latestVersion'
   }
   ```
 
-这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到自己的activity实例
+指定生成的act的父类，一般为baseAct，不指定默认为ComponentActivity
+
+```kotlin
+@PreviewActParent
+open class BaseAct: FragmentActivity() {
+    //...
+}
+```
+
+指定异步任务类和方法
+
+```kotlin
+class AsyncInstance {
+
+    @PreviewAsyncImplClazz
+    companion object {
+        @get:PreviewAsyncImplGetter
+        val instance: AsyncCallback = object : AsyncCallback {
+            override fun doAsync(doOnCreate: () -> Unit) {
+                //执行同步或异步任务后调用doOnCreate
+                doOnCreate()
+            }
+
+        }
+    }
+}
+```
+
+这样，在调用compose的preview功能时通过 LocalContext.current 可以获取到生成的activity实例
+
+```kotlin
+@Preview
+@Composable
+fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit){
+        Log.i("test", "context:$context")
+    }
+    Text(text = "Hello $name!")
+
+}
+//输出 context:com.phcdevelop.anyhookdemo.async.PreviewHook$PreviewAct@adea029
+```
+
+
 
 ## PreviewHookCheck
+
 如果你的app使用了其他框架，也使用了替换ActivityThread.Handler.Callback的方式，导致PreviewHook无效，那么你就需要使用这个库
 添加依赖
+
 ```gradle
         implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
 ```
+
 之后，在app初始化调用
+
 ```kotlin
 class MApp: Application() {
     override fun onCreate() {
@@ -58,6 +118,7 @@ class MApp: Application() {
 ```
 
 ## PreviewHookCallback
+
 增加了异步回调的支持，如果你需要在composeAct执行前需要初始化app某些配置，可以使用
 
 ```kotlin

@@ -2,33 +2,38 @@ pluginManagement {
     repositories {
 //        gradlePluginPortal()
         maven{
-            url 'https://maven.aliyun.com/repository/gradle-plugin'
+            url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public'
         }
-//        google()
-        maven{
-            url 'https://maven.aliyun.com/repository/google'
-        }
-//        mavenCentral()
-        maven{
-            url 'https://maven.aliyun.com/repository/central'
-        }
+//        maven{
+//            url 'https://maven.aliyun.com/repository/gradle-plugin'
+//        }
+////        google()
+//        maven{
+//            url 'https://maven.aliyun.com/repository/google'
+//        }
+////        mavenCentral()
+//        maven{
+//            url 'https://maven.aliyun.com/repository/central'
+//        }
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven { url 'https://jitpack.io' }
-//        maven{
-//            url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public'
-//        }
+        maven{
+            url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public'
+        }
 //        google()
-        maven{
-            url 'https://maven.aliyun.com/repository/google'
-        }
+//        maven{
+//            url 'https://maven.aliyun.com/repository/google'
+//        }
 //        mavenCentral()
-        maven{
-            url 'https://maven.aliyun.com/repository/central'
-        }
+//        maven{
+//            url 'https://maven.aliyun.com/repository/central'
+//        }
+//        maven{ url 'https://maven.aliyun.com/repository/jcenter' }
+//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
     }
 }
 rootProject.name = "AnyHookDemo"
@@ -39,4 +44,7 @@ include ':anyhook'
 include ':preview-hook-check'
 //include ':anyhook-no-op'
 //include ':hook-interface'
-include ':preview_hook_callback'
+include ':preview-hook-callback'
+include ':preview-hook-annotation'
+include ':preview-hook-compiler'
+include ':base'

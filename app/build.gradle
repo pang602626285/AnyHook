@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -18,8 +19,6 @@ android {
             useSupportLibrary true
         }
         manifestPlaceholders =[
-                PREVIEW_HOOK_PROVIDER_AUTHORITIES:"com.phc.anyhookdemo.PreviewHookProvider",
-                PREVIEW_HOOK_ACT_NAME:"com.phcdevelop.anyhookdemo.MainActivity",
                 COMPOSE_VERSION:"$compose_version",
         ]
     }
@@ -52,8 +51,11 @@ android {
 
 dependencies {
     implementation project(path: ':preview-hook-check')
-    implementation project(path: ':preview_hook_callback')
+    implementation project(path: ':preview-hook-callback')
+    implementation project(path: ':base')
     debugImplementation project(path: ':preview-hook')
+    kapt project(':preview-hook-compiler')
+    implementation project(path: ':preview-hook-annotation')
 
 //    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
 //    implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
@@ -76,5 +78,8 @@ dependencies {
 //    debugImplementation project(path: ':anyhook')
 //    releaseImplementation project(path: ':anyhook-no-op')
     implementation("io.coil-kt:coil-compose:2.1.0")
+
+
+
 
 }
