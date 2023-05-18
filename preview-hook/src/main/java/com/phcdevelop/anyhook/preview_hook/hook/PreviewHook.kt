@@ -16,6 +16,7 @@ import com.google.auto.service.AutoService
 import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
 import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
 import com.phcdevelop.anyhook.preview_hook.utils.PreviewActReflect.reflectActCreate
+import com.phcdevelop.base.ReflectUtil
 import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
 import java.util.ServiceLoader
 
@@ -102,14 +103,13 @@ internal class PreviewHook private constructor() : HookInterface {
     }
 
     override fun init(app: Application) {
-        var hookName:String? = null
+        var hookName:String?
         app.packageManager.getApplicationInfo(
             app.packageName,
             PackageManager.GET_META_DATA
         ).metaData.apply {
-            hookName = ServiceLoader.load(PreviewCreateAct::class.java).iterator().next().javaClass.canonicalName//获取名字
+            hookName = ReflectUtil.createPreActPath()//获取名字
 //            hookName = this.getString(PreviewHookProvider.PREVIEW_ACT_NAME)
-            composeVer = this.getString(PreviewHookProvider.COMPOSE_VERSION)?.replace(".","")?.toInt()?:0
         }
         hookName?.takeIf { it.isNotEmpty() }?.let { actName ->
             init(
@@ -131,6 +131,7 @@ internal class PreviewHook private constructor() : HookInterface {
         }
         this.app = app
         this.replaceActClaz = replaceActClaz
+        composeVer = getAppMeta(app).getString(PreviewHookProvider.COMPOSE_VERSION)?.replace(".","")?.toInt()?:0
         val handler = getSystemHandle()
 
         Handler::class.java.getDeclaredField("mCallback").apply { this.isAccessible = true }
@@ -144,6 +145,11 @@ internal class PreviewHook private constructor() : HookInterface {
             }
 
     }
+
+    private fun getAppMeta(app:Application) = app.packageManager.getApplicationInfo(
+        app.packageName,
+        PackageManager.GET_META_DATA
+    ).metaData
 
     private fun getSystemHandle(): Handler {
         //在startAct调用过程中，Uri后通过验证后，返回App，经过ActivityThread中的Handle启动Act

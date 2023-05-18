@@ -15,7 +15,7 @@ object PreviewHookCheck {
     fun checkOnAppOnCreate(app: Application) {
         kotlin.runCatching {
             val previewHookClass = Class.forName("com.phcdevelop.anyhook.preview_hook.hook.PreviewHook")
-            previewHookClass.getMethod("getInstance")?.invoke(null)?.let { instance ->
+            previewHookClass.getMethod("getInstance").invoke(null)?.let { instance ->
                 previewHookClass.getMethod("init", Application::class.java).invoke(instance, app)
             }
         }

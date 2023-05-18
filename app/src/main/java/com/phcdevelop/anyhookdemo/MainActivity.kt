@@ -11,21 +11,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.fragment.app.FragmentActivity
+import com.google.auto.service.AutoService
 import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhookdemo.async.AsyncInstance
 import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
+import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
 
-/*class MainActivity : FragmentActivity(),AsyncCallback{
+class MainActivity : BaseAct(),AsyncCallback by AsyncInstance.instance{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Toast.makeText(this, "hook success1!!", Toast.LENGTH_LONG).show()
 
     }
 
-    override fun doAsync(doOnCreate: () -> Unit) {
-        AsyncInstance.instance.doAsync(doOnCreate)
-    }
-}*/
+}
 
 @Preview
 @Composable

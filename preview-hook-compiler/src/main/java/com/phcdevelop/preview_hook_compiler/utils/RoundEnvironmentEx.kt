@@ -1,7 +1,5 @@
 package com.phcdevelop.preview_hook_compiler.utils
 
-import com.phcdevelop.preview_hook_annotation.PreviewAsyncImplClazz
-import com.phcdevelop.preview_hook_annotation.PreviewAsyncImplGetter
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
 import kotlin.reflect.KClass
