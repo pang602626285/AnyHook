@@ -44,10 +44,11 @@
   }
     ...
   dependencies {
-    debugImplementation 'com.github.phcdevelop.anyhook:anyhook:latestVersion'//hook库
-    kapt 'com.github.phcdevelop.anyhook:preview-hook-compiler:latestVersion'//APT库
-    implementation 'com.github.phcdevelop.anyhook:preview-hook-annotation:latestVersion'//注解库
+    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"//hook库
+    implementation "com.github.phcdevelop.anyhook:preview-hook-api:$anyhookVersion"//api库
+    kapt "com.github.phcdevelop.anyhook:preview-hook-compiler:$anyhookVersion"//APT库
     implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"//基础库
+    
 
   }
   ```
@@ -61,16 +62,16 @@ open class BaseAct: FragmentActivity() {
 }
 ```
 
-指定异步任务类和方法
+指定异步任务类和变量
 
 ```kotlin
+@PreviewAsyncImplClazz
 class AsyncInstance {
 
-    @PreviewAsyncImplClazz
     companion object {
-        @get:PreviewAsyncImplGetter
+        @PreviewAsyncImplField
         val instance: AsyncCallback = object : AsyncCallback {
-            override fun doAsync(doOnCreate: () -> Unit) {
+            override fun doAsync(activity: ComponentActivity,doOnCreate: () -> Unit) {
                 //执行同步或异步任务后调用doOnCreate
                 doOnCreate()
             }
@@ -93,21 +94,14 @@ fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
     Text(text = "Hello $name!")
 
 }
-//输出 context:com.phcdevelop.anyhookdemo.async.PreviewHook$PreviewAct@adea029
+//输出 context:com.phcdevelop.anyhookdemo.async.PreviewHookPreviewAct@8576370
 ```
 
 
 
 ## PreviewHookCheck
 
-如果你的app使用了其他框架，也使用了替换ActivityThread.Handler.Callback的方式，导致PreviewHook无效，那么你就需要使用这个库
-添加依赖
-
-```gradle
-        implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
-```
-
-之后，在app初始化调用
+如果你的app使用了其他框架，也使用了替换ActivityThread.Handler.Callback的方式，导致PreviewHook无效，那么你就需要使用这个功能。
 
 ```kotlin
 class MApp: Application() {

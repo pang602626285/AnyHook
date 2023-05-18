@@ -69,15 +69,15 @@ dependencies {
 //    releaseImplementation project(path: ':anyhook-no-op')
     implementation("io.coil-kt:coil-compose:2.1.0")
 
-    debugImplementation project(path: ':preview-hook')
-    implementation project(path: ':preview-hook-api')
-    implementation project(path: ':base')
-    kapt project(':preview-hook-compiler')
+//    debugImplementation project(path: ':preview-hook')
+//    implementation project(path: ':preview-hook-api')
+//    implementation project(path: ':base')
+//    kapt project(':preview-hook-compiler')
 
-//    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-api:$anyhookVersion"
-//    kapt "com.github.phcdevelop.anyhook:preview-hook-compiler:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"
+    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-api:$anyhookVersion"
+    kapt "com.github.phcdevelop.anyhook:preview-hook-compiler:$anyhookVersion"
+    implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"
 
 
 }
