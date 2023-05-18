@@ -2,15 +2,18 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
-      <module name="AnyHookDemo.anyhook" target="17" />
-      <module name="AnyHookDemo.anyhook-utils" target="17" />
-      <module name="AnyHookDemo.app" target="17" />
-      <module name="AnyHookDemo.preview-hook" target="17" />
+      <module name="AnyHookDemo.anyhook" target="11" />
+      <module name="AnyHookDemo.anyhook-utils" target="11" />
+      <module name="AnyHookDemo.app" target="11" />
+      <module name="AnyHookDemo.preview-hook" target="11" />
       <module name="AnyHookDemo.preview-hook-annotation" target="1.8" />
       <module name="AnyHookDemo.preview-hook-annotation.main" target="1.8" />
       <module name="AnyHookDemo.preview-hook-annotation.test" target="1.8" />
-      <module name="AnyHookDemo.preview-hook-callback" target="17" />
-      <module name="AnyHookDemo.preview-hook-check" target="17" />
+      <module name="AnyHookDemo.preview-hook-api" target="11" />
+      <module name="AnyHookDemo.preview-hook-api.main" target="1.8" />
+      <module name="AnyHookDemo.preview-hook-api.test" target="1.8" />
+      <module name="AnyHookDemo.preview-hook-callback" target="11" />
+      <module name="AnyHookDemo.preview-hook-check" target="11" />
       <module name="AnyHookDemo.preview-hook-compiler" target="1.8" />
       <module name="AnyHookDemo.preview-hook-compiler.main" target="1.8" />
       <module name="AnyHookDemo.preview-hook-compiler.test" target="1.8" />

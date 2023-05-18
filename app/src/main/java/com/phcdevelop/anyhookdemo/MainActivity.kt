@@ -10,14 +10,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.fragment.app.FragmentActivity
-import com.google.auto.service.AutoService
-import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhookdemo.async.AsyncInstance
 import com.phcdevelop.anyhookdemo.ui.theme.AnyHookDemoTheme
-import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
+import com.phcdevelop.preview_hook_api.async.AsyncCallback
 
-class MainActivity : BaseAct(),AsyncCallback by AsyncInstance.instance{
+class MainActivity : BaseAct(), AsyncCallback by AsyncInstance.instance {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Toast.makeText(this, "hook success1!!", Toast.LENGTH_LONG).show()
@@ -30,7 +27,7 @@ class MainActivity : BaseAct(),AsyncCallback by AsyncInstance.instance{
 @Composable
 fun Greeting(@PreviewParameter(TestProvider::class) name: String) {
     val context = LocalContext.current
-    LaunchedEffect(key1 = Unit){
+    LaunchedEffect(key1 = Unit) {
         Log.i("test", "context:$context")
     }
     Text(text = "Hello $name!")
@@ -47,7 +44,8 @@ fun DefaultPreview() {
 
 class TestProvider : PreviewParameterProvider<String> {
     override val values: Sequence<String>
-        get() = sequenceOf("test",
+        get() = sequenceOf(
+            "test",
             "123"
         )
 

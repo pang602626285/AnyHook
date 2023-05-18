@@ -1,8 +1,8 @@
 package com.phcdevelop.anyhookdemo
 
 import com.google.auto.service.AutoService
-import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
+import com.phcdevelop.preview_hook_api.async.AsyncCallback
 
 /**
  * @Author PHC

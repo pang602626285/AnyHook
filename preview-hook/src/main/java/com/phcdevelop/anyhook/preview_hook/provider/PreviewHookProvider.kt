@@ -8,9 +8,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.phcdevelop.anyhook.preview_hook.hook.PreviewHook
 import com.phcdevelop.anyhook.preview_hook.utils.ActLifecycleAdapter
-import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.anyhook.utils.ThreadUtils
 import com.phcdevelop.base.ReflectUtil
+import com.phcdevelop.preview_hook_api.async.AsyncCallback
 
 
 class PreviewHookProvider : CPAdapter() {

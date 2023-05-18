@@ -1,7 +1,7 @@
 package com.phcdevelop.anyhookdemo
 
 import android.app.Application
-import com.phcdevelop.anyhook.preview_hook_check.utils.PreviewHookCheck
+import com.phcdevelop.preview_hook_api.utils.PreviewHookCheck
 
 /**
  * @Author PHC
@@ -10,6 +10,6 @@ import com.phcdevelop.anyhook.preview_hook_check.utils.PreviewHookCheck
 class MApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        PreviewHookCheck.checkOnAppOnCreate(this)
+        com.phcdevelop.preview_hook_api.utils.PreviewHookCheck.checkOnAppOnCreate(this)
     }
 }

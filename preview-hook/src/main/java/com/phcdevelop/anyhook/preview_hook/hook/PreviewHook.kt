@@ -12,13 +12,10 @@ import android.os.Message
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.tooling.PreviewActivity
-import com.google.auto.service.AutoService
 import com.phcdevelop.anyhook.preview_hook.hook_interface.HookInterface
 import com.phcdevelop.anyhook.preview_hook.provider.PreviewHookProvider
 import com.phcdevelop.anyhook.preview_hook.utils.PreviewActReflect.reflectActCreate
 import com.phcdevelop.base.ReflectUtil
-import com.phcdevelop.preview_hook_annotation.PreviewCreateAct
-import java.util.ServiceLoader
 
 /**
  * @Author PHC

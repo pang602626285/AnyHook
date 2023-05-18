@@ -1,9 +1,9 @@
 package com.phcdevelop.anyhookdemo.async
 
 import androidx.activity.ComponentActivity
-import com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback
 import com.phcdevelop.preview_hook_annotation.PreviewAsyncImplClazz
 import com.phcdevelop.preview_hook_annotation.PreviewAsyncImplField
+import com.phcdevelop.preview_hook_api.async.AsyncCallback
 
 /**
  * @Author PHC
