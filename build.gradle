@@ -19,6 +19,6 @@ ext{
     target_version =31
     app_version = "1.0.4"
     compile_version = 32
-    anyhookVersion = "5403bad6ea"
+    anyhookVersion = "3d8fbc864c"
 
 }

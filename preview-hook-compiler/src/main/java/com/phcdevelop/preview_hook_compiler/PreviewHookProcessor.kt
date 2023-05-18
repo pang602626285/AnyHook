@@ -85,7 +85,7 @@ class PreviewHookProcessor : AbstractProcessor() {
                     }
                 }
                 .addSuperinterface(
-                    Class.forName("com.phcdevelop.anyhook.preview_hook_callback.AsyncCallback").kotlin,
+                    Class.forName("com.phcdevelop.preview_hook_api.async.AsyncCallback").kotlin,
                     delegate = CodeBlock.of("${fieldClazzName}.${getterName}")
                 )
 

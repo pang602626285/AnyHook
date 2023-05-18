@@ -75,10 +75,8 @@ dependencies {
     kapt project(':preview-hook-compiler')
 
 //    debugImplementation "com.github.phcdevelop.anyhook:preview-hook:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-check:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-callback:$anyhookVersion"
+//    implementation "com.github.phcdevelop.anyhook:preview-hook-api:$anyhookVersion"
 //    kapt "com.github.phcdevelop.anyhook:preview-hook-compiler:$anyhookVersion"
-//    implementation "com.github.phcdevelop.anyhook:preview-hook-annotation:$anyhookVersion"
 //    implementation "com.github.phcdevelop.anyhook:preview-hook-base:$anyhookVersion"
 
 
